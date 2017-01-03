@@ -1,0 +1,14 @@
+this is the step by step procedure of using git-
+1- after having configured git in your system and cloning the repo from net one can start using it.
+
+2- We can make any directory in our system as git repo by using-- changing to that directory and issuing-- git init
+
+3- Now we can start adding our files into this initialized directory
+
+4- Once we have modified or added our files to this git repo in our system then we need to add it-- git add . for adding all the files or git add <name_of_file> to add a particular file.
+
+5- After this we need to commit by issuing git commit. We can combine step 4 and 5 together by issuing git commit -a command.It will commit and add simultaneously.
+
+6- Once the file has been added, we need to issue push command i.e git push
+
+7- We can check the status of our git by issuing git status
