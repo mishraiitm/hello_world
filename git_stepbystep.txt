@@ -9,6 +9,6 @@ this is the step by step procedure of using git-
 
 5- After this we need to commit by issuing git commit. We can combine step 4 and 5 together by issuing git commit -a command.It will commit and add simultaneously.
 
-6- Once the file has been added, we need to issue push command i.e git push
+6- Once the file have been added, we need to issue push command i.e git push
 
 7- We can check the status of our git by issuing git status
