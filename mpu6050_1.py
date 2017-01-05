@@ -1,12 +1,12 @@
 #!/usr/bin/python
-#author Amardeep Mishra
+#author Amardeep Mishra(IIT Madras) 08/01/2017
+#I have modified the upm/mpu60x0.py to calculate angles.In order to use this code one must have upm installed 
 
 from __future__ import print_function
 import time, sys, signal, atexit
 from upm import pyupm_mpu9150 as sensorObj
 from math import *
 import time
-gyroscale=131
 def main():
     # Instantiate an MPU60X0 on I2C bus 0
     sensor = sensorObj.MPU60X0()
