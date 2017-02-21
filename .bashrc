@@ -205,7 +205,7 @@ ps -aux | grep -i "$1" > ~/bash/process.txt
 kill $(for i in "$(cat ~/bash/process.txt)" ;do echo $i ;done | awk '{print $2}')
 }
 
-alias lab='ssh amardeep@10.21.43.225'
+alias lab='ssh amardeep@ip_address_of_your_lab'
 f(){
 sudo find ~/ -iname "*$2*" -a -iname "*$3*" -type $1
 }
