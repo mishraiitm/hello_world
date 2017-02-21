@@ -205,11 +205,17 @@ ps -aux | grep -i "$1" > ~/bash/process.txt
 kill $(for i in "$(cat ~/bash/process.txt)" ;do echo $i ;done | awk '{print $2}')
 }
 
-alias lab='ssh amardeep@ip_address_of_your_lab'
+alias lab='ssh amardeep@10.21.43.225'
 f(){
 sudo find ~/ -iname "*$2*" -a -iname "*$3*" -type $1
 }
 
 g(){
-git add "$1" && git commit -m "$2" && git push
+if [ $1 = "add" ]
+	then
+	git add "$2" && git commit -m "$3" && git push
+elif [ $1 = "remove" ]
+	then
+	git rm "$2" && git commit -m "$3" && git push
+fi
 }
