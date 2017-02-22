@@ -37,7 +37,11 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
+<<<<<<< HEAD
     xterm-color|*-256color) color_prompt=yes;;
+=======
+    xterm-color) color_prompt=yes;;
+>>>>>>> 05268cf30e7e6a984f3837c137ca9e40fc3d6530
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -115,6 +119,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+<<<<<<< HEAD
 alias c='clear'
 alias update='sudo apt-get update && sudo apt-get upgrade'
 alias ins='sudo apt-get install'
@@ -163,4 +168,109 @@ amar=10.22.53.194
 move(){
 find $1 -maxdepth 1 -iname "$2" -type f -exec mv {} $3 \;
 
+=======
+
+# Added by Canopy installer on 2016-03-14
+# VIRTUAL_ENV_DISABLE_PROMPT can be set to '' to make the bash prompt show that Canopy is active, otherwise 1
+alias activate_canopy="source '/home/amardeep/Enthought/Canopy_64bit/User/bin/activate'"
+# VIRTUAL_ENV_DISABLE_PROMPT=1 source '/home/amardeep/Enthought/Canopy_64bit/User/bin/activate'
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+alias auto='source $HOME/auto/07p/cmds/auto.env.sh'
+alias gal='sudo screen /dev/ttyUSB0 115200'
+alias m='matlab'
+alias c='clear'
+alias nandan='cd ~/Desktop/IITM/AEROSPACE/Aero_Controls/Nandan_Sir'
+alias books='cd ~/Desktop/IITM/AEROSPACE/Aero_Controls/imp_books'
+alias arduino='cd ~/Desktop/CODING/arduino-1.6.0+Intel;./arduino'
+alias nodesk='matlab -nodesktop'
+alias processing='cd ~/bash_scripting; ./processing'
+alias restart='sudo reboot'
+alias mount_new_vol='test -d ~/mount_new_vol || mkdir ~/mount_new_vol && sudo mount /dev/sda7 ~/mount_new_vol'
+alias unmount_new_vol='sudo umount /dev/sda7'
+if_mount() {
+if mountpoint -q ~/$1
+then
+echo "itz mounted"
+else
+echo "not mounted"
+fi
+}
+alias multimedia='xdg-open'
+mnt=mount_new_vol
+
+pdf_opener() {
+val1=$(locate -i $1 | grep pdf$ | wc -l)
+val2=$(locate -i $1 | grep -i $2 | grep pdf$ | wc -l)
+val3=$(locate -i $1 | grep -i $2 | grep -i $3 | grep pdf$ | wc -l)
+if [ $val1 -eq 1 ]
+then
+evince "$(locate -i $1 | grep pdf$)"
+elif [ $val2 -eq 1 ]
+then
+evince "$(locate -i $1 | grep -i $2 | grep pdf$)"
+elif [ $val3 -eq 1 ]
+then
+evince "$(locate -i $1 | grep -i $2 | grep -i $3 | grep pdf$)"
+else
+echo "not possible"
+fi
+exit 0
+}
+export -f pdf_opener
+
+file_on() {
+var=$(ps aux | grep "$1" | grep "$2" | grep "$3" | wc -l)
+if [ $var -ne 0 ]
+then
+echo "file is running"
+else
+echo "file is not running"
+fi
+}
+export -f file_on
+alias ins='sudo apt-get install'
+alias repo='sudo apt-add-repository'
+alias ssh_gal='ssh root@192.168.0.110'
+alias mac_gal='98:4F:EE:05:57:16'
+alias format_32='sudo mkfs.vfat /dev/"$1"'
+#synclient TapButton1=1 TapButton2=3 TapButton3=2
+alias mouse='xinput --list-props "SynPS/2 Synaptics TouchPad"'
+alias search_ip='nmap 192.168.0.*'
+alias drives='sudo fdisk -l'
+alias time_server='ntpq -p'
+alias upd='sudo apt-get update && sudo apt-get upgrade'
+alias speed_analysis='systemd-analyze $1'
+alias search_on_network='nmap 192.168.0.*'
+alias blue_on='sudo service bluetooth start'
+alias blue_off='sudo service bluetooth stop'
+alias http_put_angle='http -b PUT 192.168.0.110:8888/put_angle/$1'
+alias p='python'
+read_sensor_data_from_dweet(){
+while true
+do
+http -b https://dweet.io:443/get/latest/dweet/for/mpu6050_sensor_data_amardeep_mishra >> ~/dweet.txt
+sleep 1
+done }
+alias dir_size='du -s "$1"'
+alias remove='sudo apt-get remove "$1"'
+alias auto-remove='sudo apt-get remove --auto-remove "$1"'
+k() {
+ps -aux | grep -i "$1" > ~/bash/process.txt
+kill $(for i in "$(cat ~/bash/process.txt)" ;do echo $i ;done | awk '{print $2}')
+}
+
+alias lab='ssh amardeep@ip_of_my_lab'
+f(){
+sudo find ~/ -iname "*$2*" -a -iname "*$3*" -type $1
+}
+
+g(){
+if [ $1 = "add" ]
+	then
+	git add "$2" && git commit -m "$3" && git push
+elif [ $1 = "remove" ]
+	then
+	git rm "$2" && git commit -m "$3" && git push
+fi
+>>>>>>> 05268cf30e7e6a984f3837c137ca9e40fc3d6530
 }
