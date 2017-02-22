@@ -37,7 +37,11 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
+<<<<<<< HEAD
+    xterm-color|*-256color) color_prompt=yes;;
+=======
     xterm-color) color_prompt=yes;;
+>>>>>>> 05268cf30e7e6a984f3837c137ca9e40fc3d6530
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -115,6 +119,56 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+<<<<<<< HEAD
+alias c='clear'
+alias update='sudo apt-get update && sudo apt-get upgrade'
+alias ins='sudo apt-get install'
+alias upd='sudo apt-get update && sudo apt-get upgrade'
+alias nodesk='matlab -nodesktop'
+alias clone='git clone "$1"'
+alias tar='tar -xvzf "$1"'
+alias tar_bz2='tar -xvjf "$1"'
+pdf_opener() {
+var1=$(locate -i "$1" | grep pdf$ | wc -l)
+var2=$(locate -i "$1" | grep -i "$2" | grep pdf$ | wc -l)
+var3=$(locate -i "$1" | grep -i "$2" | grep -i "$3" | grep pdf$ | wc -l)
+if [ $var1 -eq 1 ]
+then
+evince "$(locate -i "$1" | grep pdf$)"
+elif [ $var2 -eq 1 ]
+then
+evince "$(locate -i "$1" | grep -i "$2" | grep pdf$)"
+elif [ $var3 -eq 1 ]
+then
+evince "$(locate -i "$1" | grep -i "$2" | grep -i "$3" | grep pdf$)"
+else 
+echo "doesnt exist"
+fi
+}
+alias p='python'
+alias m='matlab'
+alias multimedia='xdg-open'
+
+k(){
+ps -ef | grep -i "$1" > ~/bash/process.txt
+kill $(for i in "$(cat ~/bash/process.txt)"; do echo $i; done | awk '{print $2}')
+
+}
+
+f() {
+sudo find ~/ -iname "*$2*" -a -iname "*$3*" -type $1
+}
+
+process(){
+ps -ef | grep -i "$1"
+}
+alias home='ssh amardeep@10.22.53.194'
+amar=10.22.53.194
+
+move(){
+find $1 -maxdepth 1 -iname "$2" -type f -exec mv {} $3 \;
+
+=======
 
 # Added by Canopy installer on 2016-03-14
 # VIRTUAL_ENV_DISABLE_PROMPT can be set to '' to make the bash prompt show that Canopy is active, otherwise 1
@@ -218,4 +272,5 @@ elif [ $1 = "remove" ]
 	then
 	git rm "$2" && git commit -m "$3" && git push
 fi
+>>>>>>> 05268cf30e7e6a984f3837c137ca9e40fc3d6530
 }
