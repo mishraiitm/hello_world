@@ -111,7 +111,8 @@ for y0 in q:
             plt.plot(amar20,amar21,'go')
             if len(c1)==1:
                 plt.figure(2)
-                t1_new=[t_last+i for i in t1]
+                t1_new=[t_last+i for i in t1] 
+                '''Adding the last time instance from previous integration to this one.t_last holds the value of last time instance from previous integration.This step is necessary because the integration of system in this cycle will begin from 0'''
                 ctr1=[-1]*len(t1_new)
                 plt.plot(t1_new,ctr1)
                 print(t1_new)
@@ -129,19 +130,23 @@ for y0 in q:
                 if(m*ys1[i,0]+ys1[i,1]<0):
                     amar10.append(ys1[i,0])
                     amar11.append(ys1[i,1])
-                    t1.append(tspan[i])
+                    t1.append(tspan[i]) #Building time list
 
                 elif(m*ys1[i,0]+ys1[i,1]>0):
-                    y01=ys1[i,0].copy()
+                    y01=ys1[i,0].copy() 
+                    '''initial points for next system'''
                     y02=ys1[i,1].copy()
                     y0=[y01,y02]
-                    c1.append(len(t1))
+                    c1.append(len(t1)) 
+                    '''Building a list of lengths of time,it will contain the length of tspan for which one system was integrated'''
                     break
             print(t1)
             print(len(t1))
             print(c1[len(c1)-2])
             print t_last
-            t1_new=[t_last+i for i in t1[c1[len(c1)-2]:]]
+            print(t1[c1[len(c1)-2]:])
+            t1_new=[t_last+i for i in t1[c1[len(c1)-2]:]] 
+            '''here i am adding t_last from previous integration to time instance from this integration only.However t1 contains time instances of previous integration as well,so to overcome that barrier I have used c1[len(c1)-2]-- it will give me the time instances for this integration cycle only'''
             t_last=t1[len(t1_new)-1]
             print(len(t1_new[c1[len(c1)-2]:]))
             plt.figure(1)
