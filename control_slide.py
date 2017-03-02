@@ -99,32 +99,36 @@ for y0 in q:
                 if(m*ys2[cnt,0]+ys2[cnt,1]>0):
                     amar20.append(ys2[cnt,0])
                     amar21.append(ys2[cnt,1])
-                    ctr1.append(-1)
                     t1.append(tspan[cnt])
 
                 elif(m*ys2[cnt,0]+ys2[cnt,1]<0):
                     var0=ys2[cnt,0].copy()
                     var1=ys2[cnt,1].copy()
                     c1.append(len(t1))
-                    #print(len(t1_new))
+                    print(len(t1))
                     break
-            t1_new=[t_last+i for i in t1]
-            #print(t1_new)
-            t_last=t1_new[len(t1_new)-1]
+            
             plt.plot(amar20,amar21,'go')
             if len(c1)==1:
                 plt.figure(2)
+                t1_new=[t_last+i for i in t1]
+                ctr1=[-1]*len(t1_new)
                 plt.plot(t1_new,ctr1)
+                print(t1_new)
+                t_last=t1_new[len(t1_new)-1]
+
             else:
-                plt.figure(2)
-                print t1_new[c1[len(c1)-2]:c1[len(c1)-1]]
-                #plt.plot(t1_new[c1[len(c1)-2]:c1[len(c1)-1]],ctr1)
+                t1_new=[t_last+i for i in t1[c1[len(c1)-2]:]]
+                print t1_new[c1[len(c1)-2]:]
+                ctr1=[-1]*len(t1_new) 
+                plt.figure(2) 
+                plt.plot(t1_new[c1[len(c1)-2]:],ctr1)
+                t_last=t1_new[len(t1_new)-1]
             ys1=sc.odeint(f1,[var0,var1],tspan)
             for i in range(len(ys1)):
                 if(m*ys1[i,0]+ys1[i,1]<0):
                     amar10.append(ys1[i,0])
                     amar11.append(ys1[i,1])
-                    ctr2.append(1)
                     t1.append(tspan[i])
 
                 elif(m*ys1[i,0]+ys1[i,1]>0):
@@ -133,10 +137,16 @@ for y0 in q:
                     y0=[y01,y02]
                     c1.append(len(t1))
                     break
+            print(t1)
+            print(len(t1))
+            print(c1[len(c1)-2])
+            print t_last
             t1_new=[t_last+i for i in t1[c1[len(c1)-2]:]]
             t_last=t1[len(t1_new)-1]
+            print(len(t1_new[c1[len(c1)-2]:]))
             plt.figure(1)
-            plt.plot(amar10,amar11,'ro')        
+            plt.plot(amar10,amar11,'ro')         
+            ctr2=[1]*len(t1_new)
             plt.figure(2)
             plt.plot(t1_new[c1[len(c1)-2]:],ctr2)
         x=np.linspace(-3,3,100)
