@@ -36,62 +36,88 @@ t_last=0
 for y0 in q:
     if(y0[0]+y0[1]<0):
         for j in range(30):
-            ys1=sc.odeint(f1,y0,tspan)
-            for cnt in range(len(ys1)):
-                if(m*ys1[cnt,0]+ys1[cnt,1]<0):
-                    amar10.append(ys1[cnt,0])
-                    amar11.append(ys1[cnt,1])
-                    ctr1.append(1)
+            ys2=sc.odeint(f2,y0,tspan)
+            for cnt in range(len(ys2)):
+                if(m*ys2[cnt,0]+ys2[cnt,1]<0):
+                    amar20.append(ys2[cnt,0])
+                    amar21.append(ys2[cnt,1])
                     t1.append(tspan[cnt])
-                    t1_new=[t_last+i for i in t1]
 
-                elif(m*ys1[cnt,0]+ys1[cnt,1]>0):
-                    var0=ys1[cnt,0].copy()
-                    var1=ys1[cnt,1].copy()
+                elif(m*ys2[cnt,0]+ys2[cnt,1]>0):
+                    var0=ys2[cnt,0].copy()
+                    var1=ys2[cnt,1].copy()
                     c1.append(len(t1))
-
+                    print(len(t1))
                     break
-            print(len(t1_new))
-            print(len(ctr1))
- 
-            t_last=t1_new[len(t1_new)-1]
-            plt.plot(amar10,amar11,'go')
+            
+            plt.figure(0)
+            plt.plot(amar20,amar21,'go')
             if len(c1)==1:
                 plt.figure(2)
+                p=[t_last+i for i in t1]
+                for i in range(len(p)):
+                    t1_new.append(p[i])
+                '''Adding the last time instance from previous integration to this one.t_last holds the value of last time instance from previous integration.This step is necessary because the integration of system in this cycle will begin from 0'''
+                ctr1=[1]*len(t1_new)
+                plt.figure(1)
                 plt.plot(t1_new,ctr1)
-            else:
-                plt.figure(2)
-                plt.plot(t1_new[c1[len(c1)-2]:c1[len(c1)-1]],ctr1)
-            ys2=sc.odeint(f2,[var0,var1],tspan)
-            for i in range(len(ys2)):
-                if(m*ys2[i,0]+ys2[i,1]>0):
-                    amar20.append(ys2[i,0])
-                    amar21.append(ys2[i,1])
-                    ctr2.append(-1)
-                    t1.append(tspan[i]) 
+                #plt.show()
+                print(t1_new)
+                t_last=t1_new[len(t1_new)-1]
 
-                elif(m*ys2[i,0]+ys2[i,1]<0):
-                    y01=ys2[i,0].copy()
-                    y02=ys2[i,1].copy()
+            else:
+                p=[t_last+i for i in t1[c1[len(c1)-2]:]]
+                for i in range(len(p)):
+                    t1_new.append(p[i])
+
+                print t1_new[c1[len(c1)-2]:]
+                ctr1=[1]*len(t1_new[c1[len(c1)-2]:]) 
+                plt.figure(1) 
+                plt.plot(t1_new[c1[len(c1)-2]:],ctr1,'g-')
+                t_last=t1_new[len(t1_new)-1]
+            ys1=sc.odeint(f1,[var0,var1],tspan)
+            for i in range(len(ys1)):
+                if(m*ys1[i,0]+ys1[i,1]>0):
+                    amar10.append(ys1[i,0])
+                    amar11.append(ys1[i,1])
+                    t1.append(tspan[i]) #Building time list
+
+                elif(m*ys1[i,0]+ys1[i,1]<0):
+                    y01=ys1[i,0].copy() 
+                    '''initial points for next system'''
+                    y02=ys1[i,1].copy()
                     y0=[y01,y02]
-                    c1.append(len(t1))
+                    c1.append(len(t1)) 
+                    '''Building a list of lengths of time,it will contain the length of tspan for which one system was integrated'''
                     break
-            t1_new=[t_last+i for i in t1]
+            print(t1)
+            print(len(t1))
+            print(c1[len(c1)-2])
+            print t_last
+            print(t1[c1[len(c1)-2]:])
+            p=[i+t_last for i in t1[c1[len(c1)-2]:]]
+            for i in range(len(p)):
+                t1_new.append(p[i])
+            '''here i am adding t_last from previous integration to time instance from this integration only.However t1 contains time instances of previous integration as well,so to overcome that barrier I have used c1[len(c1)-2]-- it will give me the time instances for this integration cycle only'''
             t_last=t1_new[len(t1_new)-1]
+            print(len(t1_new[c1[len(c1)-2]:]))
+            print(t1_new)
+            print(len(t1_new))
+            
+            plt.figure(0)
+            plt.plot(amar10,amar11,'ro')         
+            ctr2=[-1]*len(t1_new[c1[len(c1)-2]:])
+            
             plt.figure(1)
-            plt.plot(amar20,amar21,'ro')        
-            plt.figure(2)
-            plt.plot(t1_new[c1[len(c1)-2]:c1[len(c1)-1]],ctr2)
+            plt.plot(t1_new[c1[len(c1)-2]:],ctr2)
         x=np.linspace(-3,3,100)
         e=-x
-        plt.figure(1)
+        plt.figure(0)
         plt.plot(x,e,'r--')
         plt.grid()
         #plt.savefig('sarah_spurgeon2.eps')
-        plt.show()
+
         
-    
-    
     elif(y0[0]+y0[1]>0):
         for j in range(30):
             ys2=sc.odeint(f2,y0,tspan)
@@ -108,22 +134,30 @@ for y0 in q:
                     print(len(t1))
                     break
             
+            plt.figure(0)
             plt.plot(amar20,amar21,'go')
             if len(c1)==1:
                 plt.figure(2)
-                t1_new=[t_last+i for i in t1] 
+                p=[t_last+i for i in t1]
+                for i in range(len(p)):
+                    t1_new.append(p[i])
                 '''Adding the last time instance from previous integration to this one.t_last holds the value of last time instance from previous integration.This step is necessary because the integration of system in this cycle will begin from 0'''
                 ctr1=[-1]*len(t1_new)
+                plt.figure(1)
                 plt.plot(t1_new,ctr1)
+                #plt.show()
                 print(t1_new)
                 t_last=t1_new[len(t1_new)-1]
 
             else:
-                t1_new=[t_last+i for i in t1[c1[len(c1)-2]:]]
+                p=[t_last+i for i in t1[c1[len(c1)-2]:]]
+                for i in range(len(p)):
+                    t1_new.append(p[i])
+
                 print t1_new[c1[len(c1)-2]:]
-                ctr1=[-1]*len(t1_new) 
-                plt.figure(2) 
-                plt.plot(t1_new[c1[len(c1)-2]:],ctr1)
+                ctr1=[-1]*len(t1_new[c1[len(c1)-2]:]) 
+                plt.figure(1) 
+                plt.plot(t1_new[c1[len(c1)-2]:],ctr1,'g-')
                 t_last=t1_new[len(t1_new)-1]
             ys1=sc.odeint(f1,[var0,var1],tspan)
             for i in range(len(ys1)):
@@ -145,20 +179,26 @@ for y0 in q:
             print(c1[len(c1)-2])
             print t_last
             print(t1[c1[len(c1)-2]:])
-            t1_new=[t_last+i for i in t1[c1[len(c1)-2]:]] 
+            p=[i+t_last for i in t1[c1[len(c1)-2]:]]
+            for i in range(len(p)):
+                t1_new.append(p[i])
             '''here i am adding t_last from previous integration to time instance from this integration only.However t1 contains time instances of previous integration as well,so to overcome that barrier I have used c1[len(c1)-2]-- it will give me the time instances for this integration cycle only'''
-            t_last=t1[len(t1_new)-1]
+            t_last=t1_new[len(t1_new)-1]
             print(len(t1_new[c1[len(c1)-2]:]))
-            plt.figure(1)
+            print(t1_new)
+            print(len(t1_new))
+            
+            plt.figure(0)
             plt.plot(amar10,amar11,'ro')         
-            ctr2=[1]*len(t1_new)
-            plt.figure(2)
+            ctr2=[1]*len(t1_new[c1[len(c1)-2]:])
+            
+            plt.figure(1)
             plt.plot(t1_new[c1[len(c1)-2]:],ctr2)
         x=np.linspace(-3,3,100)
         e=-x
-        plt.figure(1)
+        plt.figure(0)
         plt.plot(x,e,'r--')
         plt.grid()
         #plt.savefig('sarah_spurgeon2.eps')
-        plt.show()
+plt.show()
 
